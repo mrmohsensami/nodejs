@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./partials/head.ejs') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | <%= title %></title>
-</head>
+    <body>
+        <div class="container ">
+            <div><%- include('./partials/nav.ejs') %></div>
+            <div class="page-header">
 
-<body>
-    <div><%- include('./partials/nav.ejs') %></div>
-    <h1>About Page</h1>
-    <hr>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos laborum a modi velit cumque quo ab natus voluptatem vel obcaecati, rerum ipsam, minus tempore sunt hic quidem. Mollitia, ab architecto!</p>
-</body>
+                <h1>About Page</h1>
+            </div>
 
-</html>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos laborum a modi velit cumque quo ab natus voluptatem vel obcaecati, rerum ipsam, minus tempore sunt hic quidem. Mollitia, ab architecto!</p>
+        </div>
+    </body>
+
+    </html>
