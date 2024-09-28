@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 
 // express app
 const app = express();
@@ -9,6 +10,19 @@ app.set('views', 'templates');
 
 // listen for request
 app.listen(3000);
+
+// Middlewate and static files
+app.use(express.static('public'))
+
+app.use(morgan('combined'))
+
+// app.use((req, res, next)=> {
+//     console.log('New Request was Made:');
+//     console.log('Host:', req.hostname);
+//     console.log('Path:', req.path);
+//     console.log('Method:', req.method);
+//     next()
+// })
 
 app.get('/', (req, res) => {
     const blogs = [
