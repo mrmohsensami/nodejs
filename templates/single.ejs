@@ -10,7 +10,6 @@
                 <hr>
 
 
-
                 <div class="col-lg-12">
 
                     <div class="panel panel-default">
@@ -27,11 +26,20 @@
                             </p>
                         </div>
                     </div>
+                    <a class="btn btn-danger delete" data-doc="<%= post._id %>">Delete</a>
                 </div>
 
 
         </div>
-
+        <script>
+            const trashDoc = document.querySelector('a.delete')
+            trashDoc.addEventListener('click', (e) => {
+                const endpoint = `/blog/${trashDoc.dataset.doc}`
+                fetch(endpoint, {
+                    method: 'DELETE'
+                }).then((respnse) => respnse.json()).then((data => window.location.href = data.redirect)).catch(err => console.log(err))
+            })
+        </script>
     </body>
 
     </html>

@@ -95,7 +95,6 @@ app.get('/blog', (req, res) => {
 });
 app.get('/blog/:id', (req, res) => {
     const id = req.params.id;
-    console.log(id);
     Blog.findById(id)
         .then((post) => {
             console.log(post);
@@ -117,6 +116,14 @@ app.post('/create', (req, res) => {
         .then((result) => res.send(result))
         .catch((err) => console.log(err));
     res.redirect('/blog');
+});
+app.delete('/blog/:id', (req, res) => {
+    const id = req.params.id;
+    Blog.findByIdAndDelete(id)
+        .then((result) => {
+            res.json({ redirect: '/blog' });
+        })
+        .catch((err) => console.log(err));
 });
 
 // 404 page
