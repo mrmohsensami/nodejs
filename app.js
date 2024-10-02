@@ -20,8 +20,9 @@ mongoose
 
 // Middlewate and static files
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 
 // app.use((req, res, next)=> {
 //     console.log('New Request was Made:');
@@ -99,6 +100,13 @@ app.get('/about', (req, res) => {
 app.get('/create', (req, res) => {
     res.render('create', { title: 'create' });
     // res.sendFile('./views/about.html', {root: __dirname})
+});
+app.post('/create', (req, res) => {
+    const blog = new Blog(req.body);
+    blog.save()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+    res.redirect('/blog');
 });
 
 // 404 page
