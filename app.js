@@ -93,6 +93,16 @@ app.get('/blog', (req, res) => {
         })
         .catch((err) => console.log(err));
 });
+app.get('/blog/:id', (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    Blog.findById(id)
+        .then((post) => {
+            console.log(post);
+            res.render('single', { title: 'single', post });
+        })
+        .catch((err) => console.log(err));
+});
 app.get('/about', (req, res) => {
     res.render('about', { title: 'about' });
     // res.sendFile('./views/about.html', {root: __dirname})
