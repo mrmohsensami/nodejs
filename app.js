@@ -34,13 +34,14 @@ app.use(morgan('combined'));
 // Add Post
 app.get('/add-post', (req, res) => {
     const blog = new Blog({
-        title: 'new Title 3',
-        snippet: 'about new blog 3',
+        title: 'new Title 5',
+        snippet: 'about new blog 5',
         body: 'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
     });
     blog.save()
         .then((result) => res.send(result))
         .catch((err) => console.log(err));
+    res.redirect('/blog');
 });
 // Get Posts
 app.get('/all-posts', (req, res) => {
@@ -74,13 +75,22 @@ app.get('/d/posts', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    const blogs = [
-        { title: 'title one', snippet: 'Lorem ipsum dolor sit amet consectetur.' },
-        { title: 'title two', snippet: 'Lorem ipsum dolor sit amet consectetur.' },
-        { title: 'title three', snippet: 'Lorem ipsum dolor sit amet consectetur.' },
-    ];
-    res.render('index', { title: 'Home', blogs });
+    // const blogs = [
+    //     { title: 'title one', snippet: 'Lorem ipsum dolor sit amet consectetur.' },
+    //     { title: 'title two', snippet: 'Lorem ipsum dolor sit amet consectetur.' },
+    //     { title: 'title three', snippet: 'Lorem ipsum dolor sit amet consectetur.' },
+    // ];
+    // res.render('index', { title: 'Home', blogs });
     // res.sendFile('./views/index.html', {root: __dirname})
+    res.redirect('/blog');
+});
+app.get('/blog', (req, res) => {
+    Blog.find()
+        .sort({ createdAt: -1 })
+        .then((blogs) => {
+            res.render('index', { title: 'Blog', blogs });
+        })
+        .catch((err) => console.log(err));
 });
 app.get('/about', (req, res) => {
     res.render('about', { title: 'about' });
