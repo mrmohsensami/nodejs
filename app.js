@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Blog = require('./models/blog');
 
 // express app
 const app = express();
@@ -8,13 +10,18 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'templates');
 
-// listen for request
-app.listen(3000);
+// Connect to MongoDB
+const dbURI =
+    'mongodb+srv://user:123456sSa@cluster0.szqar.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0';
+mongoose
+    .connect(dbURI)
+    .then((result) => app.listen(3000))
+    .catch((err) => console.log(err));
 
 // Middlewate and static files
-app.use(express.static('public'))
+app.use(express.static('public'));
 
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 
 // app.use((req, res, next)=> {
 //     console.log('New Request was Made:');
@@ -23,6 +30,48 @@ app.use(morgan('combined'))
 //     console.log('Method:', req.method);
 //     next()
 // })
+
+// Add Post
+app.get('/add-post', (req, res) => {
+    const blog = new Blog({
+        title: 'new Title 3',
+        snippet: 'about new blog 3',
+        body: 'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
+    });
+    blog.save()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+});
+// Get Posts
+app.get('/all-posts', (req, res) => {
+    Blog.find()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+});
+// Get single Post
+app.get('/post', (req, res) => {
+    Blog.findById('66fa81a7325ae1689157c428')
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+});
+// Delete Post
+app.get('/d/post', (req, res) => {
+    Blog.findByIdAndDelete('66fd6e44d76b30dc8389271e')
+        .then((result) => {
+            if (result) {
+                res.send(`Document Deleted: ${result}`);
+            } else {
+                res.send(`Document not found`);
+            }
+        })
+        .catch((err) => console.log(err));
+});
+// Delete all Posts
+app.get('/d/posts', (req, res) => {
+    Blog.deleteMany({})
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
+});
 
 app.get('/', (req, res) => {
     const blogs = [
